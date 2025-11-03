@@ -22,10 +22,10 @@ authRouter.post('/register', register);
 authRouter.post('/login', login);
 
 // @route   GET /api/auth/me
-authRouter.get('/me', protect, getMe);
+authRouter.get('/me',  getMe);
 
 // @route   PUT /api/auth/profile
-authRouter.put('/profile', protect, updateProfile);
+authRouter.put('/profile',updateProfile);
 
 
 

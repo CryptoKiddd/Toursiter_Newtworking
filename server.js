@@ -72,11 +72,42 @@ app.get('/', (req, res) => {
     success: true,
     message: 'Profile Matching Service API',
     version: '1.0.0',
-    documentation: '/api/docs',
+    Testing: '/admin.html',
     endpoints: {
-      service: '/api/v1',
-      admin: '/api/admin',
-      webApp: '/api/auth'
+      base: '/api/v1',
+      createProfileWithLinkedin:{
+        url:'/api/v1/profiles',
+        method:"Post",
+        require:{
+          apiKey: "X-API-Key: Your Key",
+          name:"String",
+          linkedinUrl:"String"
+        }
+      } , 
+      
+      matchPorifles:{
+         url:'/api/v1/matches',
+        method:"Post",
+        require:{
+          apiKey: "X-API-Key: Your Key",
+          profileId:"String",
+          
+        },
+        opt:{
+          minScore:number,
+          limit:number
+        }
+      },
+      getSpecificProfile:{
+         url:'/api/v1/profiles/:id',
+        method:"Get",
+        require:{
+          apiKey: "X-API-Key: Your Key",
+       
+          
+        },
+     
+      }
     }
   });
 });
