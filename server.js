@@ -72,7 +72,7 @@ app.get('/', (req, res) => {
     success: true,
     message: 'Profile Matching Service API',
     version: '1.0.0',
-    Testing: '/admin.html',
+    
     endpoints: {
       base: '/api/v1',
       createProfileWithLinkedin:{
@@ -94,8 +94,8 @@ app.get('/', (req, res) => {
           
         },
         opt:{
-          minScore:number,
-          limit:number
+          minScore:"number",
+          limit:"number",
         }
       },
       getSpecificProfile:{
