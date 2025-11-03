@@ -47,7 +47,7 @@ app.use('/api/v1', serviceRoutes);
 // Admin Routes (for managing API keys)
 const adminRoutes = require('./routes/adminRoutes');
 const { protect } = require('./middleware/auth'); // JWT auth for admin
-app.use('/api/admin', protect, adminRoutes);
+app.use('/api/admin',  adminRoutes);
 
 // Web App Routes (existing JWT-based routes)
 
