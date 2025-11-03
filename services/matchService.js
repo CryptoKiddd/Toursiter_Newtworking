@@ -11,7 +11,9 @@ async function findCollaborationMatches(userId, options = {}) {
     const {
       limit = 5,
       minScore = 0.3,
-      excludeConnected = true
+      excludeConnected = true,
+      clientId = null,
+      includeMutualReasoning = false // NEW: Include bidirectional reasoning
     } = options;
 
     // Get the user and their collaboration targets
@@ -25,12 +27,19 @@ async function findCollaborationMatches(userId, options = {}) {
     // Build query to find potential matches
     const query = { _id: { $ne: userId } };
 
+    // Filter by clientId if provided
+    if (clientId) {
+      query.clientId = clientId;
+    }
+
     // Exclude already connected users if requested
-    if (excludeConnected && user.connections.length > 0) {
+    if (excludeConnected && user.connections && user.connections.length > 0) {
       const connectedIds = user.connections
         .filter(c => c.status === 'accepted')
         .map(c => c.userId);
-      query._id.$nin = connectedIds;
+      if (connectedIds.length > 0) {
+        query._id = { ...query._id, $nin: connectedIds };
+      }
     }
 
     // Get all potential matches
@@ -40,11 +49,33 @@ async function findCollaborationMatches(userId, options = {}) {
 
     // Score each potential match
     const scoredMatches = potentialMatches
-      .map(match => ({
-        user: match,
-        score: calculateMatchScore(user, match),
-        reasons: getMatchReasons(user, match)
-      }))
+      .map(match => {
+        const userToMatchScore = calculateMatchScore(user, match);
+        const userToMatchReasons = getMatchReasons(user, match);
+        
+        let matchData = {
+          user: match,
+          score: userToMatchScore,
+          reasons: userToMatchReasons
+        };
+
+        // Calculate mutual reasoning if requested
+        if (includeMutualReasoning) {
+          const matchToUserScore = calculateMatchScore(match, user);
+          const matchToUserReasons = getMatchReasons(match, user);
+          const mutualScore = (userToMatchScore + matchToUserScore) / 2;
+
+          matchData.mutualReasoning = {
+            mutualScore: Math.round(mutualScore * 100),
+            yourScoreToThem: Math.round(userToMatchScore * 100),
+            theirScoreToYou: Math.round(matchToUserScore * 100),
+            reasonsYouToThem: userToMatchReasons,
+            reasonsThemToYou: matchToUserReasons
+          };
+        }
+
+        return matchData;
+      })
       .filter(match => match.score >= minScore)
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
@@ -61,7 +92,8 @@ async function findCollaborationMatches(userId, options = {}) {
       skills: match.user.enrichedSkills || match.user.skills,
       matchScore: Math.round(match.score * 100),
       matchReasons: match.reasons,
-      collaborationSuggestions: generateCollaborationSuggestions(user, match.user)
+      collaborationSuggestions: generateCollaborationSuggestions(user, match.user),
+      ...(includeMutualReasoning && { mutualReasoning: match.mutualReasoning })
     }));
 
   } catch (error) {
@@ -70,9 +102,6 @@ async function findCollaborationMatches(userId, options = {}) {
   }
 }
 
-/**
- * Calculate match score between two users (0-1)
- */
 /**
  * Calculate match score between two users (0–1)
  * Focuses on complementary connections rather than identical profiles
@@ -164,7 +193,6 @@ function calculateTargetMatch(user1, user2) {
   return Math.min(maxScore, 1);
 }
 
-
 /**
  * Calculate complementary skills score
  */
@@ -185,7 +213,6 @@ function calculateComplementarySkills(user1, user2) {
 
   return overlapScore + complementaryScore;
 }
-
 
 /**
  * Calculate industry alignment score
@@ -219,32 +246,6 @@ function calculateIndustryComplement(user1, user2) {
 
   // Partial or neutral industries
   return 0.6;
-}
-
-function calculateIndustryMatch(user1, user2) {
-    if (!user1.industry || !user2.industry) return 0.5;
-
-  const industry1 = user1.industry.toLowerCase();
-  const industry2 = user2.industry.toLowerCase();
-
-  // Penalize identical industry (they’re competitors, not complements)
-  if (industry1 === industry2) return 0.4;
-
-const relatedPairs = [
-    ['hospitality', 'marketing'],
-    ['tourism', 'advertising'],
-    ['finance', 'technology'],
-    ['education', 'consulting']
-  ];
-
-  for (const [a, b] of relatedPairs) {
-    if ((industry1.includes(a) && industry2.includes(b)) || 
-        (industry1.includes(b) && industry2.includes(a))) {
-      return 1; // strong complement
-    }
-  }
-
-  return 0.5;
 }
 
 /**
@@ -374,6 +375,7 @@ function generateCollaborationSuggestions(user1, user2) {
 
 /**
  * Get mutual match score (bidirectional)
+ * Now used primarily for the /compare endpoint
  */
 async function getMutualMatchScore(userId1, userId2) {
   const user1 = await User.findById(userId1);

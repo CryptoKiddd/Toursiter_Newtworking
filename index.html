@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Matching Service - Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: #f7f7f7;
+            color: #666;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: #e0e0e0;
+        }
+
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .response {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f7f7f7;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .response h3 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .response pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .error {
+            border-left-color: #e74c3c;
+        }
+
+        .error h3 {
+            color: #e74c3c;
+        }
+
+        .success {
+            border-left-color: #2ecc71;
+        }
+
+        .success h3 {
+            color: #2ecc71;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #f7f7f7;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .endpoint {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f7f7f7;
+            border-radius: 8px;
+        }
+
+        .endpoint h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        .method.post {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .method.get {
+            background: #3498db;
+            color: white;
+        }
+
+        .method.put {
+            background: #f39c12;
+            color: white;
+        }
+
+        .method.delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .process-flow {
+            background: #f7f7f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .flow-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .flow-content h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .flow-content p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .api-key-display {
+            background: #2d2d2d;
+            color: #2ecc71;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .warning h4 {
+            color: #856404;
+            margin-bottom: 5px;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .info-box h4 {
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Profile Matching Service - Admin Dashboard</h1>
+            <p>Manage API keys, test endpoints, and view documentation</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab" onclick="showTab('admin')">🔑 Admin - API Keys</button>
+            <button class="tab" onclick="showTab('testing')">🧪 API Testing</button>
+            <button class="tab" onclick="showTab('docs')">📚 API Documentation</button>
+            <button class="tab" onclick="showTab('process')">🔄 How It Works</button>
+        </div>
+
+        <div class="content">
+            <!-- OVERVIEW SECTION -->
+            <div id="overview" class="section active">
+                <h2>System Architecture Overview</h2>
+                
+                <div class="info-box">
+                    <h4>🎯 Purpose</h4>
+                    <p>This service allows clients to send LinkedIn URLs and receive enriched profiles with AI-powered collaboration matches.</p>
+                </div>
+
+                <div class="process-flow">
+                    <h3>🔄 Complete Process Flow</h3>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">1</div>
+                        <div class="flow-content">
+                            <h4>Client Sends Request</h4>
+                            <p>Client provides: LinkedIn URL + Person's Name via API</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">2</div>
+                        <div class="flow-content">
+                            <h4>LinkedIn Scraping</h4>
+                            <p>Service scrapes LinkedIn profile for: skills, experience, education, bio</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">3</div>
+                        <div class="flow-content">
+                            <h4>AI Enhancement</h4>
+                            <p>OpenAI enriches profile: better bio, expanded skills, collaboration targets</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">4</div>
+                        <div class="flow-content">
+                            <h4>Database Storage</h4>
+                            <p>Profile saved to MongoDB with clientId (isolated per client)</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">5</div>
+                        <div class="flow-content">
+                            <h4>Return Enhanced Profile</h4>
+                            <p>Client receives: profileId, enriched bio, skills, collaboration targets</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">6</div>
+                        <div class="flow-content">
+                            <h4>Find Matches (Optional)</h4>
+                            <p>Client can request matches using profileId - returns ranked list</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <h4>⚠️ Database Structure</h4>
+                    <p><strong>YES, you will have "users" in your DB, but they work differently:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Service API Profiles:</strong> Created via API, have <code>clientId</code>, no password needed</li>
+                        <li><strong>Web App Users:</strong> Register normally, have passwords, use JWT auth</li>
+                        <li><strong>Both in same User collection:</strong> Distinguished by presence of <code>clientId</code></li>
+                        <li><strong>Isolation:</strong> API clients only see profiles they created (via clientId)</li>
+                    </ul>
+                </div>
+
+                <div class="grid" style="margin-top: 30px;">
+                    <div class="card">
+                        <h3>🌐 Web App Users</h3>
+                        <p><strong>Authentication:</strong> JWT Token</p>
+                        <p><strong>Routes:</strong> /api/auth/*, /api/matches/*</p>
+                        <p><strong>Usage:</strong> Direct user interface</p>
+                        <p><strong>Database:</strong> Has password, no clientId</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>🔌 Service API Profiles</h3>
+                        <p><strong>Authentication:</strong> API Key</p>
+                        <p><strong>Routes:</strong> /api/v1/*</p>
+                        <p><strong>Usage:</strong> Programmatic access</p>
+                        <p><strong>Database:</strong> Has clientId, random password</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN SECTION -->
+            <div id="admin" class="section">
+                <h2>Admin - API Key Management</h2>
+                <p style="margin-bottom: 20px;">Create and manage API keys for clients</p>
+
+                <div class="form-group">
+                    <label>JWT Token (from your web app login)</label>
+                    <input type="text" id="jwtToken" placeholder="Paste your JWT token here">
+                </div>
+
+                <h3 style="margin-top: 30px;">Create New API Key</h3>
+                <div class="form-group">
+                    <label>Client Name</label>
+                    <input type="text" id="clientName" placeholder="e.g., Acme Corp">
+                </div>
+
+                <div class="form-group">
+                    <label>Client ID (unique identifier)</label>
+                    <input type="text" id="clientId" placeholder="e.g., acme_corp_001">
+                </div>
+
+                <div class="form-group">
+                    <label>Rate Limit (requests per hour)</label>
+                    <input type="number" id="rateLimit" value="100">
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Email</label>
+                    <input type="email" id="contactEmail" placeholder="contact@acmecorp.com">
+                </div>
+
+                <button onclick="createApiKey()">Create API Key</button>
+
+                <div style="margin-top: 40px;">
+                    <h3>List All API Keys</h3>
+                    <button onclick="listApiKeys()">Fetch API Keys</button>
+                </div>
+
+                <div id="adminResponse"></div>
+            </div>
+
+            <!-- TESTING SECTION -->
+            <div id="testing" class="section">
+                <h2>API Testing</h2>
+                <p style="margin-bottom: 20px;">Test the service API endpoints</p>
+
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="text" id="testApiKey" placeholder="sk_your_api_key_here">
+                </div>
+
+                <div class="form-group">
+                    <label>Base URL</label>
+                    <input type="text" id="baseUrl" value="http://localhost:5000/api/v1">
+                </div>
+
+                <h3 style="margin-top: 30px;">1. Create Profile from LinkedIn</h3>
+                <div class="form-group">
+                    <label>LinkedIn URL</label>
+                    <input type="text" id="linkedinUrl" placeholder="https://www.linkedin.com/in/example">
+                </div>
+
+                <div class="form-group">
+                    <label>Person's Name</label>
+                    <input type="text" id="personName" placeholder="John Doe">
+                </div>
+
+                <button onclick="createProfile()">Create Profile</button>
+
+                <h3 style="margin-top: 30px;">2. Find Matches</h3>
+                <div class="form-group">
+                    <label>Profile ID (from step 1)</label>
+                    <input type="text" id="profileId" placeholder="507f1f77bcf86cd799439011">
+                </div>
+
+                <div class="form-group">
+                    <label>Minimum Score (0-100)</label>
+                    <input type="number" id="minScore" value="30">
+                </div>
+
+                <button onclick="findMatches()">Find Matches</button>
+
+                <h3 style="margin-top: 30px;">3. Get Profile</h3>
+                <div class="form-group">
+                    <label>Profile ID</label>
+                    <input type="text" id="getProfileId" placeholder="507f1f77bcf86cd799439011">
+                </div>
+
+                <button onclick="getProfile()">Get Profile</button>
+
+                <div id="testResponse"></div>
+            </div>
+
+            <!-- DOCS SECTION -->
+            <div id="docs" class="section">
+                <h2>API Documentation</h2>
+
+                <div class="endpoint">
+                    <h3><span class="method post">POST</span> /api/v1/profiles</h3>
+                    <p><strong>Description:</strong> Create and enrich a profile from LinkedIn URL</p>
+                    <p><strong>Headers:</strong></p>
+                    <div class="code-block">X-API-Key: sk_your_api_key
+Content-Type: application/json</div>
+                    <p><strong>Request Body:</strong></p>
+                    <div class="code-block">{
+  "linkedinURL": "https://www.linkedin.com/in/johndoe",
+  "name": "John Doe",
+  "email": "john@example.com"  // Optional
+}</div>
+                    <p><strong>Response:</strong></p>
+                    <div class="code-block">{
+  "success": true,
+  "message": "Profile created and enriched successfully",
+  "data": {
+    "profileId": "507f1f77bcf86cd799439011",
+    "name": "John Doe",
+    "role": "Senior Software Engineer",
+    "industry": "Technology",
+    "bio": "Experienced software engineer...",
+    "skills": ["JavaScript", "React", "Node.js"],
+    "collaborationTargets": [...]
+  }
+}</div>
+                </div>
+
+                <div class="endpoint">
+                    <h3><span class="method get">GET</span> /api/v1/profiles/:profileId</h3>
+                    <p><strong>Description:</strong> Get a specific profile by ID</p>
+                    <p><strong>Headers:</strong></p>
+                    <div class="code-block">X-API-Key: sk_your_api_key</div>
+                    <p><strong>Response:</strong> Returns profile details</p>
+                </div>
+
+                <div class="endpoint">
+                    <h3><span class="method get">GET</span> /api/v1/profiles</h3>
+                    <p><strong>Description:</strong> List all profiles for your account</p>
+                    <p><strong>Query Parameters:</strong> page, limit</p>
+                    <p><strong>Headers:</strong></p>
+                    <div class="code-block">X-API-Key: sk_your_api_key</div>
+                </div>
+
+                <div class="endpoint">
+                    <h3><span class="method post">POST</span> /api/v1/matches</h3>
+                    <p><strong>Description:</strong> Find collaboration matches for a profile</p>
+                    <p><strong>Headers:</strong></p>
+                    <div class="code-block">X-API-Key: sk_your_api_key
+Content-Type: application/json</div>
+                    <p><strong>Request Body:</strong></p>
+                    <div class="code-block">{
+  "profileId": "507f1f77bcf86cd799439011",
+  "limit": 10,
+  "minScore": 30
+}</div>
+                    <p><strong>Response:</strong></p>
+                    <div class="code-block">{
+  "success": true,
+  "profileId": "507f1f77bcf86cd799439011",
+  "matchCount": 5,
+  "matches": [
+    {
+      "matchedProfileId": "...",
+      "matchedProfileName": "Jane Smith",
+      "matchScore": 87.5,
+      "role": "Product Manager",
+      "reasons": ["Complementary skills", "Shared interests"]
+    }
+  ]
+}</div>
+                </div>
+
+                <div class="endpoint">
+                    <h3><span class="method post">POST</span> /api/v1/matches/compare</h3>
+                    <p><strong>Description:</strong> Compare two profiles for detailed match analysis</p>
+                    <p><strong>Request Body:</strong></p>
+                    <div class="code-block">{
+  "profileId1": "507f1f77bcf86cd799439011",
+  "profileId2": "507f191e810c19729de860ea"
+}</div>
+                </div>
+
+                <h3 style="margin-top: 40px;">Admin Routes (JWT Required)</h3>
+
+                <div class="endpoint">
+                    <h3><span class="method post">POST</span> /api/admin/keys</h3>
+                    <p><strong>Description:</strong> Create a new API key</p>
+                    <p><strong>Headers:</strong></p>
+                    <div class="code-block">Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json</div>
+                    <p><strong>Request Body:</strong></p>
+                    <div class="code-block">{
+  "name": "Client Company",
+  "clientId": "client_001",
+  "rateLimit": 100,
+  "contactEmail": "contact@client.com"
+}</div>
+                </div>
+
+                <div class="endpoint">
+                    <h3><span class="method get">GET</span> /api/admin/keys</h3>
+                    <p><strong>Description:</strong> List all API keys</p>
+                </div>
+
+                <div class="endpoint">
+                    <h3><span class="method get">GET</span> /api/admin/stats</h3>
+                    <p><strong>Description:</strong> Get usage statistics</p>
+                </div>
+            </div>
+
+            <!-- PROCESS SECTION -->
+            <div id="process" class="section">
+                <h2>How The Process Works</h2>
+
+                <div class="info-box">
+                    <h4>🎯 Main Question: Do I have users in my DB?</h4>
+                    <p><strong>YES!</strong> But they serve different purposes:</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Database Structure Explained</h3>
+
+                <div class="code-block">User Collection in MongoDB:
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│  🌐 WEB APP USERS (Your existing users)        │
+│  ┌────────────────────────────────────────┐    │
+│  │ _id: "abc123"                          │    │
+│  │ name: "Sarah Admin"                    │    │
+│  │ email: "sarah@yourcompany.com"         │    │
+│  │ password: "hashed_password"            │    │
+│  │ role: "Admin"                          │    │
+│  │ clientId: null ❌ (No clientId = Web app user) │    │
+│  │ Uses: JWT authentication                   │    │
+│  └────────────────────────────────────────┘    │
+│                                                 │
+│  🔌 SERVICE API PROFILES (Created via API)     │
+│  ┌────────────────────────────────────────┐    │
+│  │ _id: "def456"                          │    │
+│  │ name: "John Doe"                       │    │
+│  │ email: "generated@local"               │    │
+│  │ password: "random_unused"              │    │
+│  │ clientId: "acme_corp_001" ✅           │    │
+│  │ linkedinURL: "linkedin.com/in/johndoe" │    │
+│  │ enrichedBio: "Enhanced by AI..."       │    │
+│  │ enrichedSkills: [...]                  │    │
+│  │ collaborationTargets: [...]            │    │
+│  └────────────────────────────────────────┘    │
+│                                                 │
+│  🔌 ANOTHER CLIENT'S PROFILE                   │
+│  ┌────────────────────────────────────────┐    │
+│  │ _id: "ghi789"                          │    │
+│  │ name: "Jane Smith"                     │    │
+│  │ clientId: "beta_inc_002" ✅            │    │
+│  │ ... (isolated from other clients)      │    │
+│  └────────────────────────────────────────┘    │
+│                                                 │
+└─────────────────────────────────────────────────┘</div>
+
+                <h3 style="margin-top: 30px;">Complete Workflow Example</h3>
+
+                <div class="process-flow">
+                    <div class="flow-step">
+                        <div class="flow-number">1</div>
+                        <div class="flow-content">
+                            <h4>Client Makes API Call</h4>
+                            <div class="code-block" style="margin-top: 10px;">POST /api/v1/profiles
+Headers: X-API-Key: sk_acme_corp_key
+Body: {
+  "linkedinURL": "https://linkedin.com/in/johndoe",
+  "name": "John Doe"
+}</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">2</div>
+                        <div class="flow-content">
+                            <h4>Service Validates API Key</h4>
+                            <p>✅ Checks: Is key valid? Is it active? Rate limit OK?</p>
+                            <p>Extracts: clientId = "acme_corp_001"</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">3</div>
+                        <div class="flow-content">
+                            <h4>LinkedIn Scraping</h4>
+                            <p>Fetches: Skills, Experience, Education, Bio, Location</p>
+                            <div class="code-block" style="margin-top: 10px;">Scraped Data:
+- Skills: ["JavaScript", "React", "Node.js"]
+- Experience: [{ title: "Engineer", company: "Tech Co" }]
+- Education: [{ school: "MIT", degree: "CS" }]</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">4</div>
+                        <div class="flow-content">
+                            <h4>AI Enhancement (OpenAI)</h4>
+                            <p>Enriches profile with better descriptions and insights</p>
+                            <div class="code-block" style="margin-top: 10px;">AI Adds:
+- enrichedBio: "Senior full-stack engineer..."
+- enrichedSkills: ["JavaScript", "React", "Node.js", 
+                   "TypeScript", "AWS"]
+- collaborationTargets: [
+    { type: "Technical Co-founder", priority: 0.95 }
+  ]</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">5</div>
+                        <div class="flow-content">
+                            <h4>Save to Database</h4>
+                            <p>Creates new User document with clientId</p>
+                            <div class="code-block" style="margin-top: 10px;">Saved to MongoDB:
+{
+  _id: "507f1f77bcf86cd799439011",
+  name: "John Doe",
+  clientId: "acme_corp_001", ⬅️ Isolated by client
+  linkedinURL: "...",
+  enrichedBio: "...",
+  enrichedSkills: [...],
+  collaborationTargets: [...]
+}</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">6</div>
+                        <div class="flow-content">
+                            <h4>Return Response to Client</h4>
+                            <div class="code-block" style="margin-top: 10px;">Response:
+{
+  "success": true,
+  "data": {
+    "profileId": "507f1f77bcf86cd799439011",
+    "name": "John Doe",
+    "role": "Senior Software Engineer",
+    "bio": "Enhanced AI bio...",
+    "skills": ["JavaScript", "React", ...],
+    "collaborationTargets": [...]
+  }
+}</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-number">7</div>
+                        <div class="flow-content">
+                            <h4>Client Requests Matches (Optional)</h4>
+                            <div class="code-block" style="margin-top: 10px;">POST /api/v1/matches
+Body: {
+  "profileId": "507f1f77bcf86cd799439011",
+  "limit": 10,
+  "minScore": 50
+}
+
+Response: Top 10 matching profiles
+(Only searches within same clientId)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 40px;">Key Differences: Web App vs Service API</h3>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>🌐 Your Web App</h3>
+                        <p><span class="badge">User Flow</span></p>
+                        <div class="code-block" style="margin-top: 10px;">1. User registers manually
+2. Fills out profile form
+3. Gets JWT token
+4. Uses web interface
+5. Sees all users</div>
+                        <p style="margin-top: 10px;"><strong>Database:</strong> Regular users, no clientId</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>🔌 Service API</h3>
+                        <p><span class="badge">Service Flow</span></p>
+                        <div class="code-block" style="margin-top: 10px;">1. Client sends LinkedIn URL
+2. Service scrapes + enhances
+3. Saves with clientId
+4. Returns JSON response
+5. Only sees own profiles</div>
+                        <p style="margin-top: 10px;"><strong>Database:</strong> API profiles with clientId</p>
+                    </div>
+                </div>
+
+                <div class="warning" style="margin-top: 30px;">
+                    <h4>⚠️ Important: Client Isolation</h4>
+                    <p>Each API client is completely isolated:</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Acme Corp</strong> (clientId: acme_001) only sees profiles they created</li>
+                        <li><strong>Beta Inc</strong> (clientId: beta_002) only sees profiles they created</li>
+                        <li>Web app users see everyone (no clientId filter)</li>
+                        <li>API clients NEVER see web app users or other clients' profiles</li>
+                    </ul>
+                </div>
+
+                <h3 style="margin-top: 40px;">Summary: Yes, You Have "Users" in DB</h3>
+                
+                <div class="info-box">
+                    <p><strong>✅ Same User Collection, Different Purposes:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Web App Users:</strong> People who manually register (no clientId)</li>
+                        <li><strong>API Profiles:</strong> LinkedIn profiles created programmatically (has clientId)</li>
+                        <li><strong>Both stored together</strong> but distinguished by clientId field</li>
+                        <li><strong>Matching algorithm</strong> respects clientId boundaries</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+
+        function showTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function displayResponse(elementId, data, isError = false) {
+            const div = document.getElementById(elementId);
+            const className = isError ? 'response error' : 'response success';
+            const title = isError ? '❌ Error' : '✅ Success';
+            
+            div.innerHTML = `
+                <div class="${className}">
+                    <h3>${title}</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                </div>
+            `;
+        }
+
+        // ADMIN FUNCTIONS
+        async function createApiKey() {
+            const jwt = document.getElementById('jwtToken').value;
+            const name = document.getElementById('clientName').value;
+            const clientId = document.getElementById('clientId').value;
+            const rateLimit = document.getElementById('rateLimit').value;
+            const contactEmail = document.getElementById('contactEmail').value;
+
+            if (!jwt || !name || !clientId) {
+                alert('Please fill in JWT token, client name, and client ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/keys`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        clientId,
+                        rateLimit: parseInt(rateLimit),
+                        contactEmail
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayResponse('adminResponse', data);
+                    
+                    // Show API key prominently
+                    const apiKeyDisplay = `
+                        <div class="api-key-display">
+                            ${data.data.apiKey}
+                        </div>
+                        <div class="warning">
+                            <h4>⚠️ Save this API key securely!</h4>
+                            <p>This is the only time you'll see it. Give it to your client.</p>
+                        </div>
+                    `;
+                    document.getElementById('adminResponse').innerHTML += apiKeyDisplay;
+                } else {
+                    displayResponse('adminResponse', data, true);
+                }
+            } catch (error) {
+                displayResponse('adminResponse', { error: error.message }, true);
+            }
+        }
+
+        async function listApiKeys() {
+            const jwt = document.getElementById('jwtToken').value;
+
+            if (!jwt) {
+                alert('Please enter JWT token');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/keys`, {
+                    headers: {
+                        'Authorization': `Bearer ${jwt}`
+                    }
+                });
+
+                const data = await response.json();
+                displayResponse('adminResponse', data, !data.success);
+            } catch (error) {
+                displayResponse('adminResponse', { error: error.message }, true);
+            }
+        }
+
+        // TESTING FUNCTIONS
+        async function createProfile() {
+            const apiKey = document.getElementById('testApiKey').value;
+            const baseUrl = document.getElementById('baseUrl').value;
+            const linkedinUrl = document.getElementById('linkedinUrl').value;
+            const name = document.getElementById('personName').value;
+
+            if (!apiKey || !linkedinUrl || !name) {
+                alert('Please fill in API key, LinkedIn URL, and name');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${baseUrl}/profiles`, {
+                    method: 'POST',
+                    headers: {
+                        'X-API-Key': apiKey,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        linkedinURL: linkedinUrl,
+                        name: name
+                    })
+                });
+
+                const data = await response.json();
+                displayResponse('testResponse', data, !data.success);
+
+                // Auto-fill profile ID if successful
+                if (data.success && data.data.profileId) {
+                    document.getElementById('profileId').value = data.data.profileId;
+                    document.getElementById('getProfileId').value = data.data.profileId;
+                }
+            } catch (error) {
+                displayResponse('testResponse', { error: error.message }, true);
+            }
+        }
+
+        async function findMatches() {
+            const apiKey = document.getElementById('testApiKey').value;
+            const baseUrl = document.getElementById('baseUrl').value;
+            const profileId = document.getElementById('profileId').value;
+            const minScore = document.getElementById('minScore').value;
+
+            if (!apiKey || !profileId) {
+                alert('Please fill in API key and profile ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${baseUrl}/matches`, {
+                    method: 'POST',
+                    headers: {
+                        'X-API-Key': apiKey,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        profileId,
+                        limit: 10,
+                        minScore: parseInt(minScore)
+                    })
+                });
+
+                const data = await response.json();
+                displayResponse('testResponse', data, !data.success);
+            } catch (error) {
+                displayResponse('testResponse', { error: error.message }, true);
+            }
+        }
+
+        async function getProfile() {
+            const apiKey = document.getElementById('testApiKey').value;
+            const baseUrl = document.getElementById('baseUrl').value;
+            const profileId = document.getElementById('getProfileId').value;
+
+            if (!apiKey || !profileId) {
+                alert('Please fill in API key and profile ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${baseUrl}/profiles/${profileId}`, {
+                    headers: {
+                        'X-API-Key': apiKey
+                    }
+                });
+
+                const data = await response.json();
+                displayResponse('testResponse', data, !data.success);
+            } catch (error) {
+                displayResponse('testResponse', { error: error.message }, true);
+            }
+        }
+    </script>
+</body>
+</html>

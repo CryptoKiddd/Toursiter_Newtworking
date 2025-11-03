@@ -85,6 +85,11 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Mixed,
     default: {}
   },
+  clientId: {
+    type: String,
+    index: true,
+    required: false // Optional for backward compatibility
+  },
   collaborationTargets: [
     {
       type: {

@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Collaboration Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+        
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        /* Cover Page */
+        .cover {
+            height: 297mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            page-break-after: always;
+        }
+        
+        .cover-header {
+            opacity: 0.9;
+        }
+        
+        .cover-header .label {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .cover-header .date {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        
+        .cover-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 0;
+        }
+        
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+        
+        .cover-subtitle {
+            font-size: 24px;
+            font-weight: 300;
+            opacity: 0.95;
+            margin-bottom: 48px;
+        }
+        
+        .cover-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-top: 40px;
+        }
+        
+        .stat-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cover-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 24px;
+        }
+        
+        .footer-text {
+            font-size: 12px;
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+        
+        /* Content Pages */
+        .page {
+            padding: 60px;
+            min-height: 297mm;
+            page-break-after: always;
+        }
+        
+        .page-header {
+            margin-bottom: 48px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 24px;
+        }
+        
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+        }
+        
+        /* Match Cards */
+        .match-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            page-break-inside: avoid;
+        }
+        
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+        
+        .match-info h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        .match-role {
+            font-size: 15px;
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .match-meta {
+            font-size: 13px;
+            color: #6b7280;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .match-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .match-score {
+            text-align: right;
+        }
+        
+        .score-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .score-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .match-bio {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #374151;
+            margin-bottom: 24px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        /* Skills */
+        .skills-section {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .skill-tag {
+            background: #f3f4f6;
+            color: #4b5563;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* Reasoning Section */
+        .reasoning-section {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .reasoning-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .reasoning-column h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .mutual-score {
+            text-align: center;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .mutual-score-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+        
+        .mutual-score-label {
+            font-size: 11px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .reason-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .reason-type {
+            font-size: 11px;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .reason-text {
+            font-size: 13px;
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .reason-detail {
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        
+        .score-indicator {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Collaboration Suggestions */
+        .collab-section {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .collab-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #78350f;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        .collab-item {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .collab-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .collab-item h5 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .collab-item p {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .collab-benefit {
+            font-size: 12px;
+            color: #059669;
+            font-weight: 500;
+            padding-top: 8px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
+            .container {
+                max-width: 100%;
+            }
+            
+            .page, .cover {
+                page-break-after: always;
+            }
+            
+            .match-card {
+                page-break-inside: avoid;
+            }
+        }
+        
+        /* Download Button */
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            z-index: 1000;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+        
+        @media print {
+            .download-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="download-btn" onclick="window.print()">📄 Download PDF</button>
+    
+    <div class="container">
+        <!-- Cover Page -->
+        <div class="cover">
+            <div class="cover-header">
+                <div class="label">Strategic Partnership Report</div>
+                <div class="date">Generated: November 1, 2025</div>
+            </div>
+            
+            <div class="cover-content">
+                <h1 class="cover-title">Collaboration Opportunities</h1>
+                <p class="cover-subtitle">Personalized Strategic Matches for Levan Asambadze</p>
+                <p class="cover-subtitle" style="font-size: 18px; margin-top: -32px;">Deputy Chief Executive Officer</p>
+                
+                <div class="cover-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Qualified Matches</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">73%</div>
+                        <div class="stat-label">Top Match Score</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cover-footer">
+                <p class="footer-text">
+                    This report presents carefully curated collaboration opportunities based on complementary skills, 
+                    industry alignment, and strategic fit. Each match includes bidirectional analysis to ensure 
+                    mutual value creation.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Match Pages -->
+        <div class="page">
+            <div class="page-header">
+                <h2 class="page-title">Top-Tier Matches</h2>
+                <p class="page-subtitle">Profiles with highest collaboration potential (70%+ match score)</p>
+            </div>
+            
+            <!-- Match 1: Sophie Gotua -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>Sophie Gotua</h3>
+                        <div class="match-role">Marketing Manager</div>
+                        <div class="match-meta">
+                            <span>📍 Ajaria</span>
+                            <span>🏢 Marketing and Advertising</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">73%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    Sophie Gotua is a forward-thinking marketing manager at Shindi, leveraging her robust background 
+                    in advertising and public relations to create impactful marketing strategies. With a Master's in 
+                    Advertising from Leeds University, she combines her creativity and leadership skills to drive team 
+                    success and enhance brand visibility in the competitive marketing landscape.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Marketing Strategy</span>
+                        <span class="skill-tag">Public Relations</span>
+                        <span class="skill-tag">Social Media Marketing</span>
+                        <span class="skill-tag">Team Leadership</span>
+                        <span class="skill-tag">Public Speaking</span>
+                        <span class="skill-tag">Creativity Skills</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">63%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>
+                                Why Sophie matches you 
+                                <span class="score-indicator">73%</span>
+                            </h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">creativity skills, marketing, marketing strategy</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>
+                                Why you match Sophie 
+                                <span class="score-indicator">52%</span>
+                            </h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="collab-section">
+                    <div class="collab-title">💡 Collaboration Opportunity</div>
+                    <div class="collab-item">
+                        <h5>Knowledge Exchange</h5>
+                        <p>Share expertise between Deputy Chief Executive Officer and Marketing Manager</p>
+                        <div class="collab-benefit">
+                            ✓ Learn from each other's experiences and expand professional networks
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page 2 -->
+        <div class="page">
+            <!-- Match 2: Veronika Ferdman -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>Veronika Ferdman</h3>
+                        <div class="match-role">Sales and Marketing Specialist</div>
+                        <div class="match-meta">
+                            <span>📍 Adjara</span>
+                            <span>🏢 Leisure, Travel & Tourism</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">67%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    Veronika Ferdman is a dynamic sales and marketing specialist at Adjara Tour, leveraging her extensive 
+                    background in business administration and public relations to drive growth in the leisure and tourism 
+                    industry. With a proven track record in commercial strategies and customer engagement, she excels at 
+                    crafting innovative marketing solutions that resonate with diverse clientele.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Sales Strategy</span>
+                        <span class="skill-tag">Digital Marketing</span>
+                        <span class="skill-tag">Public Relations</span>
+                        <span class="skill-tag">Customer Engagement</span>
+                        <span class="skill-tag">Market Analysis</span>
+                        <span class="skill-tag">Brand Development</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">58%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>
+                                Why Veronika matches you 
+                                <span class="score-indicator">67%</span>
+                            </h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Target Match</div>
+                                <div class="reason-text">Matches your target: Marketing Specialist with Experience in Digital Campaigns for Hospitality</div>
+                                <div class="reason-detail">A marketing specialist can enhance Bellevue Residence Batumi's visibility through targeted digital marketing efforts.</div>
+                            </div>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">sales strategy, digital marketing, public relations</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>
+                                Why you match Veronika 
+                                <span class="score-indicator">49%</span>
+                            </h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="collab-section">
+                    <div class="collab-title">💡 Collaboration Opportunity</div>
+                    <div class="collab-item">
+                        <h5>Collaborate on: Marketing Specialist with Experience in Digital Campaigns for Hospitality</h5>
+                        <p>Creating and executing a digital marketing strategy to attract more guests and increase occupancy rates.</p>
+                        <div class="collab-benefit">
+                            ✓ Levan increases the hotel's market presence and guest acquisition, while the marketing specialist gains real-world results to enhance their portfolio.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page 3: High Potential Matches -->
+        <div class="page">
+            <div class="page-header">
+                <h2 class="page-title">High Potential Matches</h2>
+                <p class="page-subtitle">Strategic collaborators with 50-65% compatibility</p>
+            </div>
+            
+            <!-- Match 3: George Khelashvili -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>George Khelashvili</h3>
+                        <div class="match-role">Co-founder</div>
+                        <div class="match-meta">
+                            <span>📍 Georgia</span>
+                            <span>🏢 Photography/Travel</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">56%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    George Khelashvili is a co-founder at georgiantravelers.com, specializing in photography and video editing 
+                    with extensive experience in Adobe Creative Suite. His strategic vision and leadership skills drive the growth 
+                    of innovative travel content, fostering connections between culture and visual storytelling in Georgia.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Photography</span>
+                        <span class="skill-tag">Video Editing</span>
+                        <span class="skill-tag">Business Strategy</span>
+                        <span class="skill-tag">Leadership</span>
+                        <span class="skill-tag">Social Media</span>
+                        <span class="skill-tag">Motion Graphics</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">55%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>Why George matches you <span class="score-indicator">56%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">adobe audition, adobe premiere pro, after effects</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>Why you match George <span class="score-indicator">55%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Match 4: Mariam Khuberashvili -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>Mariam Khuberashvili</h3>
+                        <div class="match-role">Sales and Product Specialist</div>
+                        <div class="match-meta">
+                            <span>📍 True</span>
+                            <span>🏢 Leisure, Travel & Tourism</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">55%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    Mariam Khuberashvili is a dedicated sales and product specialist in the travel and tourism industry, 
+                    leveraging her extensive experience in customer service and event management to deliver exceptional travel 
+                    experiences. With a strong educational background in tourism and a passion for fostering meaningful connections, 
+                    Mariam excels at identifying market trends and creating tailored travel solutions that meet client needs.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Customer Service</span>
+                        <span class="skill-tag">Event Management</span>
+                        <span class="skill-tag">Hospitality</span>
+                        <span class="skill-tag">Sales Strategy</span>
+                        <span class="skill-tag">Market Research</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">52%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>Why Mariam matches you <span class="score-indicator">55%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">customer service, event management, hospitality</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>Why you match Mariam <span class="score-indicator">50%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page 4: Additional Opportunities -->
+        <div class="page">
+            <!-- Match 5: Ani Bakhturidze -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>Ani Bakhturidze</h3>
+                        <div class="match-role">Operations Manager</div>
+                        <div class="match-meta">
+                            <span>📍 Tbilisi</span>
+                            <span>🏢 Hospitality and Food Production</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">55%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    Ani Bakhturidze is an accomplished operations manager with a robust background in the hospitality and food 
+                    production sectors. With extensive expertise in event management, customer service, and food and beverage 
+                    operations, Ani excels at enhancing guest experiences and optimizing operational efficiency within hotel environments.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Hotel Management</span>
+                        <span class="skill-tag">F&B Operations</span>
+                        <span class="skill-tag">Event Management</span>
+                        <span class="skill-tag">Customer Service</span>
+                        <span class="skill-tag">Hospitality Management</span>
+                        <span class="skill-tag">Banquet Operations</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">50%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>Why Ani matches you <span class="score-indicator">55%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">banquet operations, catering, customer service</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>Why you match Ani <span class="score-indicator">46%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Match 6: Nino Khakhubia -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>Nino Khakhubia</h3>
+                        <div class="match-role">Head of International Marketing and Tourism Promotion Office</div>
+                        <div class="match-meta">
+                            <span>📍 Adjara</span>
+                            <span>🏢 Leisure, Travel & Tourism</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">52%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    Nino Khakhubia is an accomplished leader in international marketing and tourism promotion with a strong 
+                    foundation in human resources management. Currently heading the tourism promotion office in Batumi, he 
+                    leverages his expertise in event management, business strategy, and hospitality to drive growth and enhance 
+                    the tourist experience in Ajara.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Business Strategy</span>
+                        <span class="skill-tag">Event Management</span>
+                        <span class="skill-tag">Hospitality Management</span>
+                        <span class="skill-tag">Leadership</span>
+                        <span class="skill-tag">Project Management</span>
+                        <span class="skill-tag">Negotiation</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">50%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>Why Nino matches you <span class="score-indicator">52%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">air navigation, business administration, english language proficiency</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>Why you match Nino <span class="score-indicator">48%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page 5: Strategic Collaborators -->
+        <div class="page">
+            <div class="page-header">
+                <h2 class="page-title">Strategic Collaborators</h2>
+                <p class="page-subtitle">Emerging opportunities with solid foundations (48-52% compatibility)</p>
+            </div>
+            
+            <!-- Match 7: Mamuka Berdzenishvili -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>Mamuka Berdzenishvili</h3>
+                        <div class="match-role">Founder and Director</div>
+                        <div class="match-meta">
+                            <span>📍 Ajaria</span>
+                            <span>🏢 Leisure, Travel & Tourism</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">50%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    Mamuka Berdzenishvili is the founder and director of Tourister - Tourism Summit, a leading platform for 
+                    tourism development in Ajaria. With a robust background in sociology and extensive expertise in tourism 
+                    management, strategic planning, and market research, Mamuka is dedicated to enhancing the tourism landscape 
+                    through innovative solutions and collaborative efforts.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Tourism Management</span>
+                        <span class="skill-tag">Strategic Planning</span>
+                        <span class="skill-tag">Market Research</span>
+                        <span class="skill-tag">Consulting</span>
+                        <span class="skill-tag">Project Management</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">48%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>Why Mamuka matches you <span class="score-indicator">50%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">consulting, market research, project management</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>Why you match Mamuka <span class="score-indicator">46%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Match 8: Tornike Tsiramua -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>Tornike Tsiramua</h3>
+                        <div class="match-role">Lecturer - Entrepreneurship</div>
+                        <div class="match-meta">
+                            <span>📍 Tbilisi</span>
+                            <span>🏢 International Affairs</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">50%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    Tornike Tsiramua is an innovative lecturer in entrepreneurship at the Business and Technology University, 
+                    specializing in international relations and leveraging agile methodologies to foster entrepreneurial thinking. 
+                    With a robust background as a CEO and co-founder in tech startups, he excels in bridging the gap between 
+                    technology and business within the international affairs landscape.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">International Relations</span>
+                        <span class="skill-tag">Leadership</span>
+                        <span class="skill-tag">Agile Methodologies</span>
+                        <span class="skill-tag">Public Speaking</span>
+                        <span class="skill-tag">Negotiation</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">48%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>Why Tornike matches you <span class="score-indicator">50%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">agile methodologies, analytical skills, business relationship management</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>Why you match Tornike <span class="score-indicator">46%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page 6: Final Matches -->
+        <div class="page">
+            <!-- Match 9: Shota Lobzhanidze -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>Shota Lobzhanidze</h3>
+                        <div class="match-role">Director</div>
+                        <div class="match-meta">
+                            <span>📍 Tashkent</span>
+                            <span>🏢 Real Estate</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">49%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    Shota Lobzhanidze is a seasoned director with extensive experience in hotel sales and real estate management. 
+                    With a strong background in business analysis and strategic planning, he excels in enhancing operational 
+                    efficiencies and driving revenue growth for his company, exely. Passionate about education and continuous 
+                    improvement, Shota seeks to leverage his analytical skills to create impactful collaborations in the hospitality 
+                    and real estate sectors.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Business Analysis</span>
+                        <span class="skill-tag">Strategic Planning</span>
+                        <span class="skill-tag">Data Analysis</span>
+                        <span class="skill-tag">Negotiation</span>
+                        <span class="skill-tag">Customer Service Management</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">51%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>Why Shota matches you <span class="score-indicator">49%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">strategic planning, data analysis, management consulting</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>Why you match Shota <span class="score-indicator">53%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Match 10: Elene Otarashvili -->
+            <div class="match-card">
+                <div class="match-header">
+                    <div class="match-info">
+                        <h3>Elene Otarashvili</h3>
+                        <div class="match-role">Program Leader</div>
+                        <div class="match-meta">
+                            <span>📍 Tbilisi</span>
+                            <span>🏢 Hospitality</span>
+                        </div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score-badge">49%</div>
+                        <div class="score-label">Match Score</div>
+                    </div>
+                </div>
+                
+                <div class="match-bio">
+                    Elene Otarashvili is a seasoned program leader specializing in wine tourism management at Georgian American 
+                    University. With extensive experience in hospitality consultancy and event management, she leverages her 
+                    expertise in digital marketing and community outreach to create engaging educational experiences that elevate 
+                    the tourism sector in Georgia.
+                </div>
+                
+                <div class="skills-section">
+                    <div class="section-title">Key Skills</div>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Hospitality Management</span>
+                        <span class="skill-tag">Event Management</span>
+                        <span class="skill-tag">Digital Marketing</span>
+                        <span class="skill-tag">Business Development</span>
+                        <span class="skill-tag">Community Outreach</span>
+                    </div>
+                </div>
+                
+                <div class="reasoning-section">
+                    <div class="mutual-score">
+                        <div class="mutual-score-value">46%</div>
+                        <div class="mutual-score-label">Mutual Compatibility Score</div>
+                    </div>
+                    
+                    <div class="reasoning-grid">
+                        <div class="reasoning-column">
+                            <h4>Why Elene matches you <span class="score-indicator">49%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">account management, advertising, b2b</div>
+                            </div>
+                            <div class="reason-item">
+                                <div class="reason-type">Industry</div>
+                                <div class="reason-text">Both in Hospitality industry</div>
+                                <div class="reason-detail">Shared industry knowledge and network</div>
+                            </div>
+                        </div>
+                        
+                        <div class="reasoning-column">
+                            <h4>Why you match Elene <span class="score-indicator">44%</span></h4>
+                            <div class="reason-item">
+                                <div class="reason-type">Complementary Skills</div>
+                                <div class="reason-text">Has complementary skills you might need</div>
+                                <div class="reason-detail">accounting, airport development, analytics</div>
+                            </div>
+                            <div class="reason-item">
+                                <div class="reason-type">Industry</div>
+                                <div class="reason-text">Both in Hospitality industry</div>
+                                <div class="reason-detail">Shared industry knowledge and network</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Summary Page -->
+        <div class="page">
+            <div class="page-header">
+                <h2 class="page-title">Executive Summary</h2>
+                <p class="page-subtitle">Key insights and recommendations</p>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 32px; border-radius: 16px; color: white; margin-bottom: 32px;">
+                <h3 style="font-size: 24px; font-weight: 600; margin-bottom: 16px;">Match Distribution</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 24px;">
+                    <div>
+                        <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">2</div>
+                        <div style="font-size: 13px; opacity: 0.9;">Top-Tier Matches (65%+)</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">4</div>
+                        <div style="font-size: 13px; opacity: 0.9;">High Potential (50-65%)</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">4</div>
+                        <div style="font-size: 13px; opacity: 0.9;">Strategic (45-50%)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: #f9fafb; padding: 32px; border-radius: 16px; margin-bottom: 32px;">
+                <h3 style="font-size: 20px; font-weight: 600; color: #1f2937; margin-bottom: 20px;">🎯 Top Recommendations</h3>
+                
+                <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 16px; border-left: 4px solid #667eea;">
+                    <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 8px;">1. Prioritize Sophie Gotua (73%)</h4>
+                    <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">
+                        Highest overall match with strong complementary marketing skills. Her expertise in marketing strategy 
+                        and public relations aligns perfectly with your strategic needs in the hospitality sector.
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 16px; border-left: 4px solid #667eea;">
+                    <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 8px;">2. Engage Veronika Ferdman (67%)</h4>
+                    <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">
+                        Directly matches your collaboration target for digital marketing in hospitality. Her experience with 
+                        Adjara Tour provides immediate value for Bellevue Residence Batumi's visibility strategy.
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 12px; border-left: 4px solid #10b981;">
+                    <h4 style="font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 8px;">3. Build Industry Network</h4>
+                    <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">
+                        70% of your matches are in tourism and hospitality sectors, creating strong opportunities for 
+                        cross-sector collaboration, knowledge sharing, and strategic partnerships within the regional market.
+                    </p>
+                </div>
+            </div>
+            
+            <div style="background: #fef3c7; padding: 32px; border-radius: 16px; border-left: 4px solid #f59e0b;">
+                <h3 style="font-size: 20px; font-weight: 600; color: #78350f; margin-bottom: 16px;">💡 Strategic Insights</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 12px 0; border-bottom: 1px solid #fde68a; font-size: 14px; color: #92400e;">
+                        <strong>Skill Gap Coverage:</strong> Your matches bring strong marketing, event management, and customer service expertise—key areas for hospitality growth.
+                    </li>
+                    <li style="padding: 12px 0; border-bottom: 1px solid #fde68a; font-size: 14px; color: #92400e;">
+                        <strong>Geographic Advantage:</strong> 80% of matches are located in Ajaria/Adjara region, facilitating easy in-person collaboration.
+                    </li>
+                    <li style="padding: 12px 0; font-size: 14px; color: #92400e;">
+                        <strong>Complementary Industries:</strong> Diverse industry representation (tourism, real estate, education) enables innovative cross-sector partnerships.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add page numbers
+        window.addEventListener('load', function() {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach((page, index) => {
+                const pageNum = document.createElement('div');
+                pageNum.style.cssText = 'position: absolute; bottom: 30px; right: 60px; font-size: 12px; color: #9ca3af;';
+                pageNum.textContent = `Page ${index + 1}`;
+                page.style.position = 'relative';
+                page.appendChild(pageNum);
+            });
+        });
+    </script>
+</body>
+</html>
